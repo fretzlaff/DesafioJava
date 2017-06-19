@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import lombok.Data;
 
 /**
- * Classe que represanta o modelo de dados que será gravado no banco de dados
+ * Modelo de dados para armazenar os contatos
  */
 @Data
 @Entity

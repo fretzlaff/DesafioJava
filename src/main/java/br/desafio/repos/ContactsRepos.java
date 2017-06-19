@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import br.desafio.model.Contact;
 
 /**
- * Classe responsável por realizar as operação com o banco de dados.
+ * Classe responsável por realizar as operação dos contatos com o banco de dados.
  */
 @Repository
 public interface ContactsRepos extends CrudRepository<Contact, Serializable> {

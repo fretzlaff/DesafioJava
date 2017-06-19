@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Segmentar Contatos</title>
+    <title>Cadastro de Contatos</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <strong>Segmentar Contatos</strong>
+            <strong>Cadastro de Contatos</strong>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal" th:object="${contact}" th:action="@{/save}" method="POST" style="margin: 10px">
+            <form class="form-horizontal" th:object="${contact}" th:action="@{/contact/save}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
                         <div class="form-group row">
@@ -63,43 +63,10 @@
                 </div>
                 <div class="form-group row">
                     <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
-                    <a th:href="@{/}" class="btn btn-sm btn-default">Cancelar</a>
+                    <a th:href="@{/contact/}" class="btn btn-sm btn-default">Cancelar</a>
                 </div>
             </form>
         </div>
     </div>
-    
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <strong>Lista de Contatos</strong>
-        </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table table-sm table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Idade</th>
-                            <th>Estado</th>
-                            <th>Cargo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="contact : ${contacts}">
-                            <td th:text="${contact.id}"></td>
-                            <td th:text="${contact.name}"></td>
-                            <td th:text="${contact.email}"></td>
-                            <td th:text="${contact.age}"></td>
-                            <td th:text="${contact.state}"></td>
-                            <td th:text="${contact.role}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>    
-    
 </body>
 </html>

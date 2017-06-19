@@ -2,6 +2,7 @@ package br.desafio.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.desafio.repos.SegmentationRepos;
 import br.desafio.search.SearchParams;
 import br.desafio.search.SearchWrapper;
 
@@ -16,7 +18,19 @@ import br.desafio.search.SearchWrapper;
  * Responsável por receber as requisições REST da view de pesquisa
  */
 @RestController
-public class TagetingController {
+@RequestMapping("segmentation")
+public class SegmentationController {
+
+	@Autowired
+	private SegmentationRepos segmentationRepos;
+
+	@RequestMapping("/")
+	public ModelAndView listSegmentations() {
+		final ModelAndView modeView = new ModelAndView("/segmentation/list");
+		modeView.addObject("segmentations", segmentationRepos.findAll());
+		return modeView;
+	}
+
 
 	@RequestMapping("/search")
 	public ModelAndView search() {
@@ -39,15 +53,26 @@ public class TagetingController {
 		return sendToSearch(searchWrapper);
 	}
 
-	@RequestMapping(value = "/submitSearch", method = RequestMethod.POST)
+	@RequestMapping(value = "/submitSearch", params={"search"}, method = RequestMethod.POST)
 	public ModelAndView submitSearch(@ModelAttribute final SearchWrapper searchWrapper) {
-		final boolean needsCombinator = !searchWrapper.getParamsList().isEmpty();
-		searchWrapper.getParamsList().add(new SearchParams(needsCombinator));
+
+		//TODO: Fazer consulta
 		return sendToSearch(searchWrapper);
 	}
 
+	@RequestMapping(value = "/submitSearch", params={"cancel"}, method = RequestMethod.POST)
+	public ModelAndView cancelar() {
+		return new ModelAndView("/segmentation/list");
+	}
+
+	@RequestMapping(value = "/submitSearch", params={"save"}, method = RequestMethod.POST)
+	public ModelAndView save(@ModelAttribute final SearchWrapper searchWrapper) {
+		//TODO: Salvar pesquisa
+		return listSegmentations();
+	}
+
 	public ModelAndView sendToSearch(final SearchWrapper searchWrapper) {
-		final ModelAndView modeView = new ModelAndView("/search");
+		final ModelAndView modeView = new ModelAndView("/segmentation/search");
 		modeView.addObject("searchWrapper", searchWrapper);
 		return modeView;
 	}

@@ -40,11 +40,11 @@ public class SearchParams {
 	 * Os valores possíveis são "E" ou "OU"
 	 * Só vai existir a partir da criação do segundo grupo de filtros
 	 */
-	private GroupCombinator groupCombinator;
+	private GroupCombinator groupCombinator = GroupCombinator.AND;
 
 	/**
 	 * Define se precisa considerar o combinador de grupos
 	 */
-	private boolean needsCombinator;
+	private boolean needsCombinator = false;
 
 }

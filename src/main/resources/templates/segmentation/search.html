@@ -4,19 +4,27 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Segmentar Contatos</title>
+    <title>Segmentação de Contatos</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <strong>Segmentar Contatos</strong>
+            <strong>Segmentação de Contatos</strong>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal" th:object="${searchWrapper}" th:action="@{/submitSearch}" method="POST" style="margin: 10px">
+            <form class="form-horizontal" th:object="${searchWrapper}" th:action="@{/segmentation/submitSearch}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
+                    	<div class="form-group row">                                                          
+                            <div class="col-md-4" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+                                <label>Descrição</label>
+                                <input type="text" class="form-control input-sm" th:field="*{name}" autofocus="autofocus" placeholder="Informe a descrição" maxlength="100"/>
+                            </div>
+                        </div>
+                    
+                    	<div class="form-group row">                                                          
 						<table class="table">
 							<thead>
 							    <tr>
@@ -68,33 +76,14 @@
 							      </tr>
 							  </tbody>
 						  </table>
-                    
-                    <!-- 
-                        <div class="form-group row">
-                            <div class="col-md-2" th:classappend="${#fields.hasErrors('age')}? 'has-error'">
-                                <label>Idade</label> 
-                                <input type="number" class="form-control input-sm" th:field="*{age}" maxlength="3" />
-                            </div>
-                        </div>                        
-                        <div class="form-group row">
-                            <div class="col-md-2" th:classappend="${#fields.hasErrors('state')}? 'has-error'">
-                                <label>Estado</label> 
-                                <input type="text" class="form-control input-sm" th:field="*{state}" maxlength="2" />
-                            </div>
-                        </div>                        
-                        <div class="form-group row">
-                            <div class="col-md-2" th:classappend="${#fields.hasErrors('role')}? 'has-error'">
-                                <label>Cargo</label> 
-                                <input type="text" class="form-control input-sm" th:field="*{role}" maxlength="50" />
-                            </div>
                         </div>
-                         -->                        
                     </fieldset>
                 </div>
                 <div class="form-group row">
                     <button type="submit" name="addRow" class="btn btn-sm btn-primary">Adicionar</button>
                     <button type="submit" name="search" class="btn btn-sm btn-primary">Pesquisar</button>
-                    <button type="submit" name="saveAndSearch" class="btn btn-sm btn-primary">Salvar e Pesquisar</button>
+                    <button type="submit" name="save" class="btn btn-sm btn-primary">Salvar</button>
+                    <button type="submit" name="cancel" class="btn btn-sm btn-primary">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -102,7 +91,7 @@
     
     <div class="panel panel-default">
         <div class="panel-heading">
-            <strong>Lista de Contatos</strong>
+            <h4>Resultado da Pesquisa</h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
