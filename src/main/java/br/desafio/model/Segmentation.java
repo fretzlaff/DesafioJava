@@ -38,24 +38,24 @@ public class Segmentation {
 	@NotBlank(message = "Descrição é uma informação obrigatória.")
 	private String description;
 
-	@Column(nullable = false)
-	private String jsonSearchParams;
+	@Column(nullable = false, length=500)
+	private String jsonStringParams;
 
 	@Transient
 	private List<SearchParams> searchParams = new ArrayList<>();
 
-	public void setSearchParams(final List<SearchParams> searchWrapper) {
+	public void convertParamsToJson(final List<SearchParams> searchParams) {
 		final Gson gson = new Gson();
-		final String json = gson.toJson(searchWrapper);
-		jsonSearchParams = Base64Utils.encodeToString(json.getBytes());
+		final String json = gson.toJson(searchParams);
+		jsonStringParams = Base64Utils.encodeToString(json.getBytes());
 	}
 
-	public void setJsonSearchParams(final String jsonSearchParams) {
-		this.jsonSearchParams = jsonSearchParams;
+	public void fillParamsFromJson() {
+		// Serializa a lista de parâmetros de pesquisa
 		final Gson gson = new Gson();
 		final Type listType = new TypeToken<List<SearchParams>>(){
 			private static final long serialVersionUID = 4831247127082152645L;}.getType();
-		searchParams = gson.fromJson(new String(Base64Utils.decodeFromString(jsonSearchParams)), listType);
+		this.searchParams = gson.fromJson(new String(Base64Utils.decodeFromString(jsonStringParams)), listType);
 	}
 
 }

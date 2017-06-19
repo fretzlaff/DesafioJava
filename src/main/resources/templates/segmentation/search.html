@@ -14,13 +14,14 @@
             <strong>Segmentação de Contatos</strong>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal" th:object="${searchWrapper}" th:action="@{/segmentation/submitSearch}" method="POST" style="margin: 10px">
+            <form class="form-horizontal" th:object="${segmentation}" th:action="@{/segmentation/submitSearch}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
                     	<div class="form-group row">                                                          
-                            <div class="col-md-4" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
+                            <div class="col-md-4" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
                                 <label>Descrição</label>
-                                <input type="text" class="form-control input-sm" th:field="*{name}" autofocus="autofocus" placeholder="Informe a descrição" maxlength="100"/>
+                                <input type="text" class="form-control input-sm" th:field="*{description}" autofocus="autofocus" placeholder="Informe a descrição" maxlength="100"/>
+	                            <input type="hidden" id="id" th:field="*{id}" readOnly="readonly"/>
                             </div>
                         </div>
                     
@@ -28,27 +29,27 @@
 						<table class="table">
 							<thead>
 							    <tr>
-							        <th th:if="${searchWrapper.paramsList.size() > 1}" class="col-md-1 col-lg-1">Combinador</th>
+							        <th th:if="*{searchParams.size() > 1}" class="col-md-1 col-lg-1">Combinador</th>
 							        <th class="col-md-2 col-lg-2">Atributo</th>
 							        <th class="col-md-2 col-lg-2">Regra</th>
 							        <th class="col-md-6 col-lg-6">Valor</th>
-							        <th th:if="${searchWrapper.paramsList.size() > 1}" class="col-md-1 col-lg-1">&nbsp;</th>
+							        <th th:if="*{searchParams.size() > 1}" class="col-md-1 col-lg-1">&nbsp;</th>
 							   </tr>
 							 </thead>
 							 <tbody>     
-							     <tr th:each="params, stat: ${searchWrapper.paramsList}">         
-							         <td th:if="${searchWrapper.paramsList.size() > 1}">
-								         <select th:if="*{paramsList[__${stat.index}__].needsCombinator}" th:field="*{paramsList[__${stat.index}__].groupCombinator}" class="form-control input-sm">
+							     <tr th:each="params, stat: *{searchParams}">         
+							         <td th:if="*{searchParams.size() > 1}">
+								         <select th:if="*{searchParams[__${stat.index}__].needsCombinator}" th:field="*{searchParams[__${stat.index}__].groupCombinator}" class="form-control input-sm">
 										   <option th:each="combinator : ${T(br.desafio.search.types.GroupCombinator).values()}"
 										          th:value="${combinator}" 
 										          th:text="${combinator.getName()}"
 										          >
 										   </option>
 										</select>
-							         	<input type="hidden" th:field="*{paramsList[__${stat.index}__].needsCombinator}"/>
+							         	<input type="hidden" th:field="*{searchParams[__${stat.index}__].needsCombinator}"/>
 							         </td>
 							         <td>
-								         <select th:field="*{paramsList[__${stat.index}__].contactAttribute}" class="form-control">
+								         <select th:field="*{searchParams[__${stat.index}__].contactAttribute}" class="form-control">
 										   <option th:each="attribute : ${T(br.desafio.search.types.ContactAttribute).values()}"
 										          th:value="${attribute}" 
 										          th:text="${attribute.getName()}"
@@ -57,7 +58,7 @@
 										</select>
 							         </td>
 							         <td>
-								         <select th:field="*{paramsList[__${stat.index}__].comparisonRule}" class="form-control input-sm">
+								         <select th:field="*{searchParams[__${stat.index}__].comparisonRule}" class="form-control input-sm">
 										   <option th:each="rule : ${T(br.desafio.search.types.ComparisonRule).values()}"
 										          th:value="${rule}" 
 										          th:text="${rule.getName()}"
@@ -66,12 +67,12 @@
 										</select>
 							         </td>
 							         <td>
-							         	<input type="text" th:field="*{paramsList[__${stat.index}__].value}" class="form-control input-sm"/>
+							         	<input type="text" th:field="*{searchParams[__${stat.index}__].value}" class="form-control input-sm"/>
 							         </td>
-							         <td th:if="${searchWrapper.paramsList.size() > 1}" >
+							         <td th:if="*{searchParams.size() > 1}" >
 					                    <button type="submit" class="btn btn-sm btn-danger"
 					                    	th:value="${stat.index}" name="removeRow" 
-					                    	th:if="*{paramsList[__${stat.index}__].needsCombinator}">Remover</button>
+					                    	th:if="*{searchParams[__${stat.index}__].needsCombinator}">Remover</button>
 							         </td>
 							      </tr>
 							  </tbody>
@@ -80,10 +81,10 @@
                     </fieldset>
                 </div>
                 <div class="form-group row">
-                    <button type="submit" name="addRow" class="btn btn-sm btn-primary">Adicionar</button>
-                    <button type="submit" name="search" class="btn btn-sm btn-primary">Pesquisar</button>
+                    <button type="submit" name="addRow" class="btn btn-sm btn-success">Adicionar</button>
+                    <button type="submit" name="search" class="btn btn-sm btn-success">Pesquisar</button>
                     <button type="submit" name="save" class="btn btn-sm btn-primary">Salvar</button>
-                    <button type="submit" name="cancel" class="btn btn-sm btn-primary">Cancelar</button>
+                    <button type="submit" name="cancel" class="btn btn-sm btn-default">Cancelar</button>
                 </div>
             </form>
         </div>
