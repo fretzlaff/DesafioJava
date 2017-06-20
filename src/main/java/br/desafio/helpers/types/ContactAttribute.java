@@ -1,4 +1,4 @@
-package br.desafio.search.types;
+package br.desafio.helpers.types;
 
 import lombok.Getter;
 
@@ -13,4 +13,9 @@ public enum ContactAttribute {
 	private ContactAttribute(final String pName) {
 		this.name= pName;
 	}
+
+	public String getColumnName() {
+		return this.toString().toLowerCase();
+	}
+
 }

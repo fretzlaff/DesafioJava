@@ -18,7 +18,7 @@ import org.springframework.util.Base64Utils;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
-import br.desafio.search.SearchParams;
+import br.desafio.helpers.SearchParams;
 import lombok.Data;
 
 /**
@@ -44,7 +44,7 @@ public class Segmentation {
 	@Transient
 	private List<SearchParams> searchParams = new ArrayList<>();
 
-	public void convertParamsToJson(final List<SearchParams> searchParams) {
+	public void convertParamsToJson() {
 		final Gson gson = new Gson();
 		final String json = gson.toJson(searchParams);
 		jsonStringParams = Base64Utils.encodeToString(json.getBytes());

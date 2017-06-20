@@ -1,4 +1,4 @@
-package br.desafio.search.types;
+package br.desafio.helpers.types;
 
 import lombok.Getter;
 

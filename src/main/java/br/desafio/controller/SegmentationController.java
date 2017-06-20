@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.desafio.helpers.SearchParams;
 import br.desafio.model.Contact;
 import br.desafio.model.Segmentation;
-import br.desafio.repos.ContactsRepos;
+import br.desafio.repos.ContactsCustomRepos;
 import br.desafio.repos.SegmentationRepos;
-import br.desafio.search.SearchParams;
 
 /**
  * Responsável por receber as requisições REST da view de pesquisa
@@ -29,7 +29,7 @@ public class SegmentationController {
 	private SegmentationRepos segmentationRepos;
 
 	@Autowired
-	private ContactsRepos contactsRepos;
+	private ContactsCustomRepos contactsCustomRepos;
 
 	@RequestMapping("/")
 	public ModelAndView listSegmentations() {
@@ -71,7 +71,7 @@ public class SegmentationController {
 	public ModelAndView submitSearch(@ModelAttribute final Segmentation segmentation) {
 
 		//TODO: Fazer consulta
-		return sendToSearch(segmentation, contactsRepos.findAll());
+		return sendToSearch(segmentation, contactsCustomRepos.findBySearchParams(segmentation.getSearchParams()));
 	}
 
 	@RequestMapping(value = "/submitSearch", params={"cancel"}, method = RequestMethod.POST)
@@ -81,7 +81,7 @@ public class SegmentationController {
 
 	@RequestMapping(value = "/submitSearch", params={"save"}, method = RequestMethod.POST)
 	public ModelAndView save(@ModelAttribute final Segmentation segmentation) {
-		segmentation.convertParamsToJson(segmentation.getSearchParams());
+		segmentation.convertParamsToJson();
 		segmentationRepos.save(segmentation);
 		return listSegmentations();
 	}

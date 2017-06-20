@@ -18,9 +18,9 @@
                 <div class="form-group">
                     <fieldset>
                     	<div class="form-group row">                                                          
-                            <div class="col-md-4" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
+                            <div class="col-md-6" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
                                 <label>Descrição</label>
-                                <input type="text" class="form-control input-sm" th:field="*{description}" autofocus="autofocus" placeholder="Informe a descrição" maxlength="100"/>
+                                <input type="text" class="form-control input-sm" th:field="*{description}" autofocus="autofocus" placeholder="Informe uma descrição para essa segmentação" maxlength="100"/>
 	                            <input type="hidden" id="id" th:field="*{id}" readOnly="readonly"/>
                             </div>
                         </div>
@@ -81,10 +81,18 @@
                     </fieldset>
                 </div>
                 <div class="form-group row">
-                    <button type="submit" name="addRow" class="btn btn-sm btn-success">Adicionar</button>
-                    <button type="submit" name="search" class="btn btn-sm btn-success">Pesquisar</button>
-                    <button type="submit" name="save" class="btn btn-sm btn-primary">Salvar</button>
-                    <button type="submit" name="cancel" class="btn btn-sm btn-default">Cancelar</button>
+                	<table border="0" width="100%">
+                		<tr>
+                			<td>
+			                    <button type="submit" name="addRow" class="btn btn-sm btn-success">Adicionar</button>
+			                    <button type="submit" name="search" class="btn btn-sm btn-success">Pesquisar</button>
+                			</td>
+                			<td align="right">
+			                    <button type="submit" name="save" class="btn btn-sm btn-primary">Salvar</button>
+			                    <button type="submit" name="cancel" class="btn btn-sm btn-default">Cancelar</button>
+                			</td>
+                		</tr>
+                	</table>
                 </div>
             </form>
         </div>

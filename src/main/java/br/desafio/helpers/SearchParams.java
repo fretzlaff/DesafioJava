@@ -1,8 +1,8 @@
-package br.desafio.search;
+package br.desafio.helpers;
 
-import br.desafio.search.types.ComparisonRule;
-import br.desafio.search.types.ContactAttribute;
-import br.desafio.search.types.GroupCombinator;
+import br.desafio.helpers.types.ComparisonRule;
+import br.desafio.helpers.types.ContactAttribute;
+import br.desafio.helpers.types.GroupCombinator;
 import lombok.Data;
 
 /**
