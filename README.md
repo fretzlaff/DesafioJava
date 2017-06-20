@@ -2,7 +2,7 @@
 
 
 Published on:
-https://rocky-waters-68827.herokuapp.com/
+https://salty-reaches-30721.herokuapp.com/
 
 Instructions to run this application:
 
