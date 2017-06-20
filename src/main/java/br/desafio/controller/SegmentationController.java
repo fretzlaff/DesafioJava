@@ -1,15 +1,15 @@
 package br.desafio.controller;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +26,7 @@ import br.desafio.repos.SegmentationRepos;
  */
 @RestController
 @RequestMapping("segmentation")
-public class SegmentationController {
+public class SegmentationController extends AbstractController<CrudRepository<Segmentation, Serializable>, Segmentation> {
 
 	@Autowired
 	private SegmentationRepos segmentationRepos;
@@ -34,37 +34,33 @@ public class SegmentationController {
 	@Autowired
 	private ContactsCustomRepos contactsCustomRepos;
 
-	@RequestMapping("/")
-	public ModelAndView listSegmentations() {
-		final ModelAndView modeView = new ModelAndView("/segmentation/list");
-		modeView.addObject("segmentations", segmentationRepos.findAll());
-		return modeView;
-	}
-
-
-	@RequestMapping("/search")
-	public ModelAndView search() {
-		final Segmentation segmentation = new Segmentation();
+	@Override
+	@RequestMapping("/add")
+	public ModelAndView add(Segmentation segmentation) {
+		segmentation = new Segmentation();
 		segmentation.getSearchParams().add(new SearchParams());
 		return sendToSearch(segmentation);
 	}
 
-    @GetMapping("/edit/{id}")
+	/*
+    @Override
+	@GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") final Long id) {
     	final Segmentation segmentation = segmentationRepos.findOne(id);
     	segmentation.fillParamsFromJson();
     	return sendToSearch(segmentation);
 	}
+	*/
 
-	@RequestMapping(value = "/submitSearch", params={"addRow"}, method = RequestMethod.POST)
-	public ModelAndView addRow(@ModelAttribute final Segmentation segmentation) {
+	@RequestMapping(value = "/submitSearch", params={"addCriteria"}, method = RequestMethod.POST)
+	public ModelAndView addCriteria(@ModelAttribute final Segmentation segmentation) {
 		final boolean needsCombinator = !segmentation.getSearchParams().isEmpty();
 		segmentation.getSearchParams().add(new SearchParams(needsCombinator));
 		return sendToSearch(segmentation);
 	}
 
-	@RequestMapping(value = "/submitSearch", params={"removeRow"}, method = RequestMethod.POST)
-	public ModelAndView removeRow(@ModelAttribute final Segmentation segmentation, final HttpServletRequest request) {
+	@RequestMapping(value = "/submitSearch", params={"removeCriteria"}, method = RequestMethod.POST)
+	public ModelAndView removeCriteria(@ModelAttribute final Segmentation segmentation, final HttpServletRequest request) {
 		final int rowId = Integer.valueOf(request.getParameter("removeRow"));
 		segmentation.getSearchParams().remove(rowId);
 		return sendToSearch(segmentation);
@@ -79,11 +75,6 @@ public class SegmentationController {
 		return sendToSearch(segmentation, contacts);
 	}
 
-	@RequestMapping(value = "/submitSearch", params={"cancel"}, method = RequestMethod.POST)
-	public ModelAndView cancelar() {
-		return new ModelAndView("/segmentation/list");
-	}
-
 	@RequestMapping(value = "/submitSearch", params={"save"}, method = RequestMethod.POST)
 	public ModelAndView save(@Valid final Segmentation segmentation, final BindingResult result) {
         if(result.hasErrors()) {
@@ -91,7 +82,7 @@ public class SegmentationController {
         }
         segmentation.convertParamsToJson();
 		segmentationRepos.save(segmentation);
-		return listSegmentations();
+		return list();
 	}
 
 	public ModelAndView sendToSearch(final Segmentation segmentation) {
@@ -99,12 +90,24 @@ public class SegmentationController {
 	}
 
 	public ModelAndView sendToSearch(final Segmentation segmentation, final Iterable<Contact> iterable) {
-		final ModelAndView modeView = new ModelAndView("/segmentation/search");
+		final ModelAndView modeView = add(segmentation);
 		modeView.addObject("segmentation", segmentation);
 		if (iterable != null) {
 			modeView.addObject("contacts", iterable);
 		}
 		return modeView;
+	}
+
+
+	@Override
+	public CrudRepository<Segmentation, Serializable> getEntityRepos() {
+		return segmentationRepos;
+	}
+
+
+	@Override
+	public String getRootPath() {
+		return "segmentation";
 	}
 
 }

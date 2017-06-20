@@ -80,7 +80,7 @@
 							         </td>
 							         <td th:if="*{searchParams.size() > 1}" >
 					                    <button type="submit" class="btn btn-sm btn-danger"
-					                    	th:value="${stat.index}" name="removeRow" 
+					                    	th:value="${stat.index}" name="removeCriteria" 
 					                    	th:if="*{searchParams[__${stat.index}__].needsCombinator}">Remover</button>
 							         </td>
 							      </tr>
@@ -93,12 +93,12 @@
                 	<table style="width:100%;border: 1px">
                 		<tr>
                 			<td>
-			                    <button type="submit" name="addRow" class="btn btn-sm btn-success">Adicionar</button>
+			                    <button type="submit" name="addCriteria" class="btn btn-sm btn-success">Adicionar</button>
 			                    <button type="submit" name="search" class="btn btn-sm btn-success">Pesquisar</button>
                 			</td>
                 			<td align="right">
 			                    <button type="submit" name="save" class="btn btn-sm btn-primary">Salvar</button>
-			                    <button type="submit" name="cancel" class="btn btn-sm btn-default">Cancelar</button>
+			                    <a th:href="@{/segmentation/}" class="btn btn-sm btn-default">Cancelar</a>
                 			</td>
                 		</tr>
                 	</table>

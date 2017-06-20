@@ -1,11 +1,12 @@
 package br.desafio.controller;
 
+import java.io.Serializable;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,21 +20,33 @@ import br.desafio.repos.ContactsRepos;
  */
 @RestController
 @RequestMapping("contact")
-public class ContactsController {
+public class ContactsController extends AbstractController<CrudRepository<Contact, Serializable>, Contact> {
 
 	@Autowired
 	private ContactsRepos contactsRepos;
 
+
+	/*
+
 	@RequestMapping("/")
 	public ModelAndView listContacts() {
-		final ModelAndView modeView = new ModelAndView("/contact/list");
+		final ModelAndView modeView = new ModelAndView("contact/list");
 		modeView.addObject("contacts", contactsRepos.findAll());
 		return modeView;
 	}
 
-    @GetMapping("/edit/{id}")
+    @Override
+	@GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") final Long id) {
         return add(contactsRepos.findOne(id));
+    }
+
+    @Override
+	@GetMapping("/add")
+    public ModelAndView add(final Contact contact) {
+        final ModelAndView mv = new ModelAndView("contact/add");
+        mv.addObject("contact", contact);
+        return mv;
     }
 
     @GetMapping("/delete/{id}")
@@ -41,13 +54,8 @@ public class ContactsController {
         contactsRepos.delete(id);
         return listContacts();
     }
+    */
 
-    @GetMapping("/add")
-    public ModelAndView add(final Contact contact) {
-        final ModelAndView mv = new ModelAndView("/contact/add");
-        mv.addObject("contact", contact);
-        return mv;
-    }
 
     @PostMapping("/save")
     public ModelAndView save(@Valid final Contact contact, final BindingResult result) {
@@ -55,6 +63,16 @@ public class ContactsController {
             return add(contact);
         }
         contactsRepos.save(contact);
-        return listContacts();
+        return list();
     }
+
+	@Override
+	public String getRootPath() {
+		return "contact";
+	}
+
+	@Override
+	public CrudRepository<Contact, Serializable> getEntityRepos() {
+		return contactsRepos;
+	}
 }
