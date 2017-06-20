@@ -24,9 +24,7 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 	@Override
 	public List<Contact> findBySearchParams(final List<SearchParams> paramsList) {
 		final StringBuilder builder = new StringBuilder("from Contact ");
-
 		buildSearchCriteria(paramsList, builder);
-
 		final String query = builder.toString();
 		log.info("Query: {}", query);
 

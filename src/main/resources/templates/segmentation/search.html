@@ -17,6 +17,13 @@
             <form class="form-horizontal" th:object="${segmentation}" th:action="@{/segmentation/submitSearch}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
+                        <div class="form-group row">
+                            <div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+                                <div th:each="detailedError : ${#fields.detailedErrors()}">
+                                    <span th:text="${detailedError.message}"></span>
+                                </div>
+                            </div>
+                        </div>                    
                     	<div class="form-group row">                                                          
                             <div class="col-md-6" th:classappend="${#fields.hasErrors('description')}? 'has-error'">
                                 <label>Descrição</label>
@@ -40,7 +47,7 @@
 							     <tr th:each="params, stat: *{searchParams}">         
 							         <td th:if="*{searchParams.size() > 1}">
 								         <select th:if="*{searchParams[__${stat.index}__].needsCombinator}" th:field="*{searchParams[__${stat.index}__].groupCombinator}" class="form-control input-sm">
-										   <option th:each="combinator : ${T(br.desafio.search.types.GroupCombinator).values()}"
+										   <option th:each="combinator : ${T(br.desafio.helpers.types.GroupCombinator).values()}"
 										          th:value="${combinator}" 
 										          th:text="${combinator.getName()}"
 										          >
@@ -50,7 +57,7 @@
 							         </td>
 							         <td>
 								         <select th:field="*{searchParams[__${stat.index}__].contactAttribute}" class="form-control">
-										   <option th:each="attribute : ${T(br.desafio.search.types.ContactAttribute).values()}"
+										   <option th:each="attribute : ${T(br.desafio.helpers.types.ContactAttribute).values()}"
 										          th:value="${attribute}" 
 										          th:text="${attribute.getName()}"
 										          >
@@ -59,7 +66,7 @@
 							         </td>
 							         <td>
 								         <select th:field="*{searchParams[__${stat.index}__].comparisonRule}" class="form-control input-sm">
-										   <option th:each="rule : ${T(br.desafio.search.types.ComparisonRule).values()}"
+										   <option th:each="rule : ${T(br.desafio.helpers.types.ComparisonRule).values()}"
 										          th:value="${rule}" 
 										          th:text="${rule.getName()}"
 										          >
@@ -67,7 +74,9 @@
 										</select>
 							         </td>
 							         <td>
-							         	<input type="text" th:field="*{searchParams[__${stat.index}__].value}" class="form-control input-sm"/>
+			                            <div class="" th:classappend="${#fields.hasErrors('searchParams[__${stat.index}__].value')}? 'has-error'">
+								         	<input type="text" th:field="*{searchParams[__${stat.index}__].value}" class="form-control input-sm"/>
+						                </div>
 							         </td>
 							         <td th:if="*{searchParams.size() > 1}" >
 					                    <button type="submit" class="btn btn-sm btn-danger"
@@ -81,7 +90,7 @@
                     </fieldset>
                 </div>
                 <div class="form-group row">
-                	<table border="0" width="100%">
+                	<table style="width:100%;border: 1px">
                 		<tr>
                 			<td>
 			                    <button type="submit" name="addRow" class="btn btn-sm btn-success">Adicionar</button>

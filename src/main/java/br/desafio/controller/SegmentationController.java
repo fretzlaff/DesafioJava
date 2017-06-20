@@ -1,9 +1,12 @@
 package br.desafio.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +57,7 @@ public class SegmentationController {
 	}
 
 	@RequestMapping(value = "/submitSearch", params={"addRow"}, method = RequestMethod.POST)
-	public ModelAndView addRow(@ModelAttribute final Segmentation segmentation, final ModelMap model) {
+	public ModelAndView addRow(@ModelAttribute final Segmentation segmentation) {
 		final boolean needsCombinator = !segmentation.getSearchParams().isEmpty();
 		segmentation.getSearchParams().add(new SearchParams(needsCombinator));
 		return sendToSearch(segmentation);
@@ -68,10 +71,12 @@ public class SegmentationController {
 	}
 
 	@RequestMapping(value = "/submitSearch", params={"search"}, method = RequestMethod.POST)
-	public ModelAndView submitSearch(@ModelAttribute final Segmentation segmentation) {
-
-		//TODO: Fazer consulta
-		return sendToSearch(segmentation, contactsCustomRepos.findBySearchParams(segmentation.getSearchParams()));
+	public ModelAndView submitSearch(@Valid final Segmentation segmentation, final BindingResult result) {
+        if(result.hasErrors()) {
+            return sendToSearch(segmentation);
+        }
+        final List<Contact> contacts = contactsCustomRepos.findBySearchParams(segmentation.getSearchParams());
+		return sendToSearch(segmentation, contacts);
 	}
 
 	@RequestMapping(value = "/submitSearch", params={"cancel"}, method = RequestMethod.POST)
@@ -80,8 +85,11 @@ public class SegmentationController {
 	}
 
 	@RequestMapping(value = "/submitSearch", params={"save"}, method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute final Segmentation segmentation) {
-		segmentation.convertParamsToJson();
+	public ModelAndView save(@Valid final Segmentation segmentation, final BindingResult result) {
+        if(result.hasErrors()) {
+            return sendToSearch(segmentation);
+        }
+        segmentation.convertParamsToJson();
 		segmentationRepos.save(segmentation);
 		return listSegmentations();
 	}

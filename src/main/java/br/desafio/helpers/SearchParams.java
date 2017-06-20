@@ -1,5 +1,7 @@
 package br.desafio.helpers;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import br.desafio.helpers.types.ComparisonRule;
 import br.desafio.helpers.types.ContactAttribute;
 import br.desafio.helpers.types.GroupCombinator;
@@ -14,7 +16,6 @@ public class SearchParams {
 	public SearchParams() {
 
 	}
-
 
 	public SearchParams(final boolean needsCombinator) {
 		this.needsCombinator = needsCombinator;
@@ -33,6 +34,7 @@ public class SearchParams {
 	/**
 	 * Valor informado pelo usuário
 	 */
+	@NotBlank(message = "Valor é uma informação obrigatória.")
 	private String value;
 
 	/**

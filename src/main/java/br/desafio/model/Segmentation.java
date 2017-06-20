@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.Base64Utils;
@@ -41,6 +42,7 @@ public class Segmentation {
 	@Column(nullable = false, length=500)
 	private String jsonStringParams;
 
+	@Valid
 	@Transient
 	private List<SearchParams> searchParams = new ArrayList<>();
 
