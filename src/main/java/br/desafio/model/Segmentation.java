@@ -49,7 +49,12 @@ public class Segmentation {
 	@Transient
 	private List<SearchParams> searchParams = new ArrayList<>();
 
+	public Segmentation() {
+		searchParams.add(new SearchParams());
+	}
+
 	public void convertParamsToJson() {
+		log.info("Convertendo parâmetros de pesquisa para json");
 		final Gson gson = new Gson();
 		final String json = gson.toJson(searchParams);
 		jsonStringParams = Base64Utils.encodeToString(json.getBytes());
@@ -59,6 +64,7 @@ public class Segmentation {
 	public void fillParamsFromJson() {
 		// Serializa a lista de parâmetros de pesquisa
 		log.info("Carragndo parâmetros de pesquisa do banco");
+		new Exception().printStackTrace();
 		final Gson gson = new Gson();
 		final Type listType = new TypeToken<List<SearchParams>>(){
 			private static final long serialVersionUID = 4831247127082152645L;}.getType();

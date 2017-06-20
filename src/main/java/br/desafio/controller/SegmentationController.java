@@ -34,24 +34,6 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 	@Autowired
 	private ContactsCustomRepos contactsCustomRepos;
 
-	@Override
-	@RequestMapping("/add")
-	public ModelAndView add(Segmentation segmentation) {
-		segmentation = new Segmentation();
-		segmentation.getSearchParams().add(new SearchParams());
-		return sendToSearch(segmentation);
-	}
-
-	/*
-    @Override
-	@GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") final Long id) {
-    	final Segmentation segmentation = segmentationRepos.findOne(id);
-    	segmentation.fillParamsFromJson();
-    	return sendToSearch(segmentation);
-	}
-	*/
-
 	@RequestMapping(value = "/submitSearch", params={"addCriteria"}, method = RequestMethod.POST)
 	public ModelAndView addCriteria(@ModelAttribute final Segmentation segmentation) {
 		final boolean needsCombinator = !segmentation.getSearchParams().isEmpty();
@@ -61,7 +43,7 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 
 	@RequestMapping(value = "/submitSearch", params={"removeCriteria"}, method = RequestMethod.POST)
 	public ModelAndView removeCriteria(@ModelAttribute final Segmentation segmentation, final HttpServletRequest request) {
-		final int rowId = Integer.valueOf(request.getParameter("removeRow"));
+		final int rowId = Integer.valueOf(request.getParameter("removeCriteria"));
 		segmentation.getSearchParams().remove(rowId);
 		return sendToSearch(segmentation);
 	}
@@ -75,14 +57,11 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 		return sendToSearch(segmentation, contacts);
 	}
 
+	@Override
 	@RequestMapping(value = "/submitSearch", params={"save"}, method = RequestMethod.POST)
 	public ModelAndView save(@Valid final Segmentation segmentation, final BindingResult result) {
-        if(result.hasErrors()) {
-            return sendToSearch(segmentation);
-        }
         segmentation.convertParamsToJson();
-		segmentationRepos.save(segmentation);
-		return list();
+		return super.save(segmentation, result);
 	}
 
 	public ModelAndView sendToSearch(final Segmentation segmentation) {

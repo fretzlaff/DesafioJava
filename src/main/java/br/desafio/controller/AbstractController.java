@@ -2,9 +2,13 @@ package br.desafio.controller;
 
 import java.io.Serializable;
 
+import javax.validation.Valid;
+
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,6 +44,16 @@ public abstract class AbstractController<T extends CrudRepository<S, Serializabl
     	getEntityRepos().delete(id);
         return list();
     }
+
+    @PostMapping("/save")
+    public ModelAndView save(@Valid final S entity, final BindingResult result) {
+        if(result.hasErrors()) {
+            return add(entity);
+        }
+        getEntityRepos().save(entity);
+        return list();
+    }
+
 
     public abstract T getEntityRepos();
 
