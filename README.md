@@ -2,7 +2,7 @@
 
 
 Published on:
-https://salty-reaches-30721.herokuapp.com/
+https://fast-gorge-86358.herokuapp.com/
 
 Instructions to run this application:
 
