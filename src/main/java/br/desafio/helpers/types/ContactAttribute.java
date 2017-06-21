@@ -3,15 +3,19 @@ package br.desafio.helpers.types;
 import lombok.Getter;
 
 public enum ContactAttribute {
-	AGE("Idade"),
-	STATE("Estado"),
-	ROLE("Cargo");
+	AGE("Idade", ComparisonRule.INTEGER_RULES),
+	STATE("Estado", ComparisonRule.STRING_RULES),
+	ROLE("Cargo", ComparisonRule.STRING_RULES);
 
 	@Getter
 	private String name;
 
-	private ContactAttribute(final String pName) {
-		this.name= pName;
+	@Getter
+	private ComparisonRule[] comparisonRule;
+
+	private ContactAttribute(final String name, final ComparisonRule[] comparisonRule) {
+		this.name= name;
+		this.comparisonRule = comparisonRule;
 	}
 
 	public String getColumnName() {

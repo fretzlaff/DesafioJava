@@ -13,5 +13,8 @@ import br.desafio.model.Contact;
 @Repository
 public interface ContactsRepos extends CrudRepository<Contact, Serializable> {
 
+	Contact findByName(String name);
+
+	Contact findByEmail(String email);
 
 }

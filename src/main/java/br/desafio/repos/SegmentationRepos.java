@@ -13,5 +13,7 @@ import br.desafio.model.Segmentation;
 @Repository
 public interface SegmentationRepos extends CrudRepository<Segmentation, Serializable> {
 
+	Segmentation findByDescription(String description);
+
 
 }

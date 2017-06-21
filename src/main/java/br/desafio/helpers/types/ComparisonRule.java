@@ -18,8 +18,7 @@ public enum ComparisonRule {
 	GREATHER_THAN("Maior que", " > '{}' "),
 	GREATHER_EQUALS_THAN("Maior ou igual a", " >= '{}' ");
 
-	@Getter
-	private static final ComparisonRule[] INTEGER_RULES = new ComparisonRule[] {
+	public static final ComparisonRule[] INTEGER_RULES = new ComparisonRule[] {
 			EQUALS,
 			LESS_THAN,
 			LESS_IGUALS_THAN,
@@ -27,8 +26,7 @@ public enum ComparisonRule {
 			GREATHER_EQUALS_THAN
 			};
 
-	@Getter
-	private static final ComparisonRule[] STRING_RULES = new ComparisonRule[] {
+	public static final ComparisonRule[] STRING_RULES = new ComparisonRule[] {
 			EQUALS,
 			CONTAINS,
 			STARTS_WITH,

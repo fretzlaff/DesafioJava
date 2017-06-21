@@ -7,6 +7,7 @@
     <title>Segmentação de Contatos</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/segmentation.js"></script>
 </head>
 <body>
     <div class="panel panel-default">
@@ -56,7 +57,7 @@
 							         	<input type="hidden" th:field="*{searchParams[__${stat.index}__].needsCombinator}"/>
 							         </td>
 							         <td>
-								         <select th:field="*{searchParams[__${stat.index}__].contactAttribute}" class="form-control">
+								         <select th:field="*{searchParams[__${stat.index}__].contactAttribute}" class="form-control"  onchange="changeOptions(this, '*{searchParams[__${stat.index}__].comparisonRule}')">
 										   <option th:each="attribute : ${T(br.desafio.helpers.types.ContactAttribute).values()}"
 										          th:value="${attribute}" 
 										          th:text="${attribute.getName()}"
@@ -66,7 +67,7 @@
 							         </td>
 							         <td>
 								         <select th:field="*{searchParams[__${stat.index}__].comparisonRule}" class="form-control input-sm">
-										   <option th:each="rule : ${T(br.desafio.helpers.types.ComparisonRule).values()}"
+										   <option th:each="rule : *{searchParams[__${stat.index}__].contactAttribute.comparisonRule}"
 										          th:value="${rule}" 
 										          th:text="${rule.getName()}"
 										          >

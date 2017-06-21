@@ -24,12 +24,12 @@ public class SearchParams {
 	/**
 	 * Atributos do modelo Contato que poderão ser pesquisados
 	 */
-	private ContactAttribute contactAttribute;
+	private ContactAttribute contactAttribute = ContactAttribute.AGE;
 
 	/**
 	 * Regra de comparação entre o atributo e o valor
 	 */
-	private ComparisonRule comparisonRule;
+	private ComparisonRule comparisonRule = ComparisonRule.EQUALS;
 
 	/**
 	 * Valor informado pelo usuário

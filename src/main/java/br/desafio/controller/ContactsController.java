@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.desafio.helpers.validation.ContactValidator;
 import br.desafio.model.Contact;
 import br.desafio.repos.ContactsRepos;
 
@@ -20,6 +23,13 @@ public class ContactsController extends AbstractController<CrudRepository<Contac
 	@Autowired
 	private ContactsRepos contactsRepos;
 
+	@Autowired
+	private ContactValidator contactValidator;
+
+    @InitBinder("contact")
+    protected void initBinder(final WebDataBinder binder) {
+        binder.addValidators(contactValidator);
+    }
 
 	@Override
 	public String getRootPath() {

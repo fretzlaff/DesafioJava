@@ -9,6 +9,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.desafio.helpers.SearchParams;
+import br.desafio.helpers.validation.SegmentationValidator;
 import br.desafio.model.Contact;
 import br.desafio.model.Segmentation;
 import br.desafio.repos.ContactsCustomRepos;
@@ -33,6 +36,15 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 
 	@Autowired
 	private ContactsCustomRepos contactsCustomRepos;
+
+	@Autowired
+	private SegmentationValidator segmentationValidator;
+
+    @InitBinder("segmentation")
+    protected void initBinder(final WebDataBinder binder) {
+        binder.addValidators(segmentationValidator);
+    }
+
 
 	@RequestMapping(value = "/submitSearch", params={"addCriteria"}, method = RequestMethod.POST)
 	public ModelAndView addCriteria(@ModelAttribute final Segmentation segmentation) {
@@ -77,12 +89,10 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 		return modeView;
 	}
 
-
 	@Override
 	public CrudRepository<Segmentation, Serializable> getEntityRepos() {
 		return segmentationRepos;
 	}
-
 
 	@Override
 	public String getRootPath() {
