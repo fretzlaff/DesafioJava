@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.desafio.controller.validation.SegmentationValidator;
 import br.desafio.helpers.SearchParams;
-import br.desafio.helpers.validation.SegmentationValidator;
 import br.desafio.model.Contact;
 import br.desafio.model.Segmentation;
 import br.desafio.repos.ContactsCustomRepos;

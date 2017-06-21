@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.desafio.helpers.validation.ContactValidator;
+import br.desafio.controller.validation.ContactValidator;
 import br.desafio.model.Contact;
 import br.desafio.repos.ContactsRepos;
 

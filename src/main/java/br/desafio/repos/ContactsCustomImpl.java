@@ -7,6 +7,8 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import br.desafio.helpers.SearchParams;
 import br.desafio.model.Contact;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +25,16 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 
 	@Override
 	public List<Contact> findBySearchParams(final List<SearchParams> paramsList) {
-		final StringBuilder builder = new StringBuilder("from Contact ");
-		buildSearchCriteria(paramsList, builder);
-		final String query = builder.toString();
+		final String query = buildSearchCriteria(paramsList);
 		log.info("Query: {}", query);
 
 		return entityManager.createQuery(query, Contact.class).getResultList();
 	}
 
-	private void buildSearchCriteria(final List<SearchParams> paramsList, final StringBuilder builder) {
+	@VisibleForTesting
+	protected String buildSearchCriteria(final List<SearchParams> paramsList) {
+		final StringBuilder builder = new StringBuilder("from Contact ");
+
 		boolean first = true;
 		for (final SearchParams searchParam : paramsList) {
 			if (first) {
@@ -46,6 +49,8 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 			builder.append(searchParam.getContactAttribute().getColumnName());
 			builder.append(searchParam.getComparisonRule().getQueryOperation(searchParam.getValue()));
 		}
+
+		return builder.toString();
 	}
 
 }

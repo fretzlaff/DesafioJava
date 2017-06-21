@@ -1,4 +1,4 @@
-package br.desafio.helpers.validation;
+package br.desafio.controller.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

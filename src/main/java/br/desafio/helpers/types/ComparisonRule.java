@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 public enum ComparisonRule {
 
-	EQUALS("Igual a", " = '{}'"),
+	EQUALS("Igual a", " = '{}' "),
 	CONTAINS("Contém", " like '%{}%' "),
 	STARTS_WITH("Começa com", " like '{}%' "),
 	ENDS_WITH("Termina com", " like '%{}' "),
