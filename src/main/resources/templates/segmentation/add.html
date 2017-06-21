@@ -57,7 +57,7 @@
 							         	<input type="hidden" th:field="*{searchParams[__${stat.index}__].needsCombinator}"/>
 							         </td>
 							         <td>
-								         <select th:field="*{searchParams[__${stat.index}__].contactAttribute}" class="form-control"  onchange="changeOptions(this, '*{searchParams[__${stat.index}__].comparisonRule}')">
+								         <select th:field="*{searchParams[__${stat.index}__].contactAttribute}" class="form-control"  onchange="changeOptions(this)">
 										   <option th:each="attribute : ${T(br.desafio.helpers.types.ContactAttribute).values()}"
 										          th:value="${attribute}" 
 										          th:text="${attribute.getName()}"
