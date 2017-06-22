@@ -12,28 +12,29 @@ import br.desafio.helpers.types.ComparisonRule;
 import br.desafio.helpers.types.ContactAttribute;
 import br.desafio.helpers.types.GroupCombinator;
 
+/**
+ * Teste unitário para testar a montagem da query a partir
+ * de diversas combinações dos parâmetros de busca.
+ */
 public class ContactsCustomTest {
+
+	final private ContactsCustomImpl custom = new ContactsCustomImpl();
 
 	@Test
 	public void testOneParamsGroup() {
-
 		final List<SearchParams> paramsList = buildParams(ContactAttribute.AGE, ComparisonRule.EQUALS, "25");
 
-		final ContactsCustomImpl custom = new ContactsCustomImpl();
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
 		final String expected = "from Contact where age = '25'";
-
 		assertEquals(expected, query);
 	}
 
 	@Test
 	public void testTwoParamsGroup() {
-
 		final List<SearchParams> paramsList = buildParams(ContactAttribute.AGE, ComparisonRule.LESS_THAN, "25");
 		addParams(ContactAttribute.STATE, ComparisonRule.EQUALS, "SC", paramsList);
 
-		final ContactsCustomImpl custom = new ContactsCustomImpl();
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
 		final String expected = "from Contact where age < '25' AND state = 'SC'";
@@ -42,26 +43,21 @@ public class ContactsCustomTest {
 
 	@Test
 	public void testAllAttributeTypes() {
-
 		final List<SearchParams> paramsList = buildParams(ContactAttribute.AGE, ComparisonRule.LESS_THAN, "25");
 		addParams(ContactAttribute.STATE, ComparisonRule.EQUALS, "SC", paramsList);
 		addParams(ContactAttribute.ROLE, ComparisonRule.CONTAINS, "Analista", paramsList);
 
-		final ContactsCustomImpl custom = new ContactsCustomImpl();
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
-		System.out.println(query);
 		final String expected = "from Contact where age < '25' AND state = 'SC' AND role like '%Analista%'";
 		assertEquals(expected, query);
 	}
 
 	@Test
 	public void testORCombinator() {
-
 		final List<SearchParams> paramsList = buildParams(ContactAttribute.AGE, ComparisonRule.LESS_THAN, "25");
 		addParams(ContactAttribute.STATE, ComparisonRule.EQUALS, "SC", GroupCombinator.OR, paramsList);
 
-		final ContactsCustomImpl custom = new ContactsCustomImpl();
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
 		final String expected = "from Contact where age < '25' OR state = 'SC'";

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Cadastro de Contatos</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -14,7 +15,7 @@
             <strong>Cadastro de Contatos</strong>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal" th:object="${contact}" th:action="@{/contact/save}" method="POST" style="margin: 10px">
+            <form class="form-horizontal" id="contactForm" th:object="${contact}" th:action="@{/contact/save}" method="POST" style="margin: 10px">
                 <div class="form-group">
                     <fieldset>
                         <div class="form-group row">
@@ -62,7 +63,7 @@
                     </fieldset>
                 </div>
                 <div class="form-group row">
-                    <button type="submit" class="btn btn-sm btn-primary">Salvar</button>
+                    <button type="submit" id="submitButton" class="btn btn-sm btn-primary">Salvar</button>
                     <a th:href="@{/contact/}" class="btn btn-sm btn-default">Cancelar</a>
                 </div>
             </form>

@@ -71,9 +71,9 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 
 	@Override
 	@RequestMapping(value = "/submitSearch", params={"save"}, method = RequestMethod.POST)
-	public ModelAndView save(@Valid final Segmentation segmentation, final BindingResult result) {
+	public ModelAndView save(@Valid final Segmentation segmentation, final BindingResult result, final HttpServletRequest request) {
         segmentation.convertParamsToJson();
-		return super.save(segmentation, result);
+		return super.save(segmentation, result, request);
 	}
 
 	public ModelAndView sendToSearch(final Segmentation segmentation) {

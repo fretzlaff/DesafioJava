@@ -2,6 +2,7 @@ package br.desafio.controller;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.data.repository.CrudRepository;
@@ -27,8 +28,12 @@ public abstract class AbstractController<T extends CrudRepository<S, Serializabl
 		return modeView;
 	}
 
-	@GetMapping("/add")
     public ModelAndView add(final S entity) {
+    	return add(entity, null);
+    }
+
+	@GetMapping("/add")
+    public ModelAndView add(final S entity, final HttpServletRequest request) {
         final ModelAndView mv = new ModelAndView(getRootPath() + "/add");
         mv.addObject(getRootPath(), entity);
         return mv;
@@ -46,7 +51,7 @@ public abstract class AbstractController<T extends CrudRepository<S, Serializabl
     }
 
     @PostMapping("/save")
-    public ModelAndView save(@Valid final S entity, final BindingResult result) {
+    public ModelAndView save(@Valid final S entity, final BindingResult result, final HttpServletRequest request) {
         if(result.hasErrors()) {
             return add(entity);
         }
