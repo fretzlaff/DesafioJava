@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import br.desafio.helpers.SearchParams;
-import br.desafio.helpers.types.ComparisonRule;
-import br.desafio.helpers.types.ContactAttribute;
-import br.desafio.helpers.types.GroupCombinator;
+import br.desafio.helpers.ComparisonRule;
+import br.desafio.helpers.ContactAttribute;
+import br.desafio.helpers.GroupCombinator;
+import br.desafio.model.SearchParams;
 
 /**
  * Teste unitário para testar a montagem da query a partir
@@ -26,7 +26,7 @@ public class ContactsCustomTest {
 
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
-		final String expected = "from Contact where age = '25'";
+		final String expected = "from Contact where age = :value0";
 		assertEquals(expected, query);
 	}
 
@@ -37,7 +37,7 @@ public class ContactsCustomTest {
 
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
-		final String expected = "from Contact where age < '25' AND state = 'SC'";
+		final String expected = "from Contact where age < :value0 AND state = :value1";
 		assertEquals(expected, query);
 	}
 
@@ -49,7 +49,7 @@ public class ContactsCustomTest {
 
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
-		final String expected = "from Contact where age < '25' AND state = 'SC' AND role like '%Analista%'";
+		final String expected = "from Contact where age < :value0 AND state = :value1 AND role like :value2";
 		assertEquals(expected, query);
 	}
 
@@ -60,7 +60,7 @@ public class ContactsCustomTest {
 
 		final String query = custom.buildSearchCriteria(paramsList).trim();
 
-		final String expected = "from Contact where age < '25' OR state = 'SC'";
+		final String expected = "from Contact where age < :value0 OR state = :value1";
 		assertEquals(expected, query);
 	}
 

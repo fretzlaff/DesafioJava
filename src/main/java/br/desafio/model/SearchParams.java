@@ -1,10 +1,10 @@
-package br.desafio.helpers;
+package br.desafio.model;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import br.desafio.helpers.types.ComparisonRule;
-import br.desafio.helpers.types.ContactAttribute;
-import br.desafio.helpers.types.GroupCombinator;
+import br.desafio.helpers.ComparisonRule;
+import br.desafio.helpers.ContactAttribute;
+import br.desafio.helpers.GroupCombinator;
 import lombok.Data;
 
 /**

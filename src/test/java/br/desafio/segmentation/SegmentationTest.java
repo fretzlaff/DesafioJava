@@ -26,10 +26,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import br.desafio.controller.SegmentationController;
 import br.desafio.controller.validation.SegmentationValidator;
-import br.desafio.helpers.SearchParams;
-import br.desafio.helpers.types.ComparisonRule;
-import br.desafio.helpers.types.ContactAttribute;
-import br.desafio.helpers.types.GroupCombinator;
+import br.desafio.helpers.ComparisonRule;
+import br.desafio.helpers.ContactAttribute;
+import br.desafio.helpers.GroupCombinator;
+import br.desafio.model.SearchParams;
 import br.desafio.model.Segmentation;
 import br.desafio.repos.ContactsCustomRepos;
 import br.desafio.repos.SegmentationRepos;

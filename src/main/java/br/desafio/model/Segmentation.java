@@ -20,7 +20,6 @@ import org.springframework.util.Base64Utils;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
-import br.desafio.helpers.SearchParams;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
