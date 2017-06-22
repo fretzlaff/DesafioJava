@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +47,6 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
         binder.addValidators(segmentationValidator);
     }
 
-
 	@RequestMapping(value = "/submitSearch", params={"addCriteria"}, method = RequestMethod.POST)
 	public ModelAndView addCriteria(@ModelAttribute final Segmentation segmentation) {
 		final boolean needsCombinator = !segmentation.getSearchParams().isEmpty();
@@ -75,6 +76,18 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
         segmentation.convertParamsToJson();
 		return super.save(segmentation, result, request);
 	}
+
+    @Override
+	@GetMapping("/view/{id}")
+    public ModelAndView edit(@PathVariable("id") final Long id) {
+    	final Segmentation segmentation = segmentationRepos.findOne(id);
+        final List<Contact> contacts = contactsCustomRepos.findBySearchParams(segmentation.getSearchParams());
+
+        final ModelAndView mv = new ModelAndView(getRootPath() + "/view");
+        mv.addObject("segmentation", segmentation);
+        mv.addObject("contacts", contacts);
+        return mv;
+    }
 
 	public ModelAndView sendToSearch(final Segmentation segmentation) {
 		return sendToSearch(segmentation, null);

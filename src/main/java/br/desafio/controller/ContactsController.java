@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,11 @@ public class ContactsController extends AbstractController<CrudRepository<Contac
     @InitBinder("contact")
     protected void initBinder(final WebDataBinder binder) {
         binder.addValidators(contactValidator);
+    }
+
+	@GetMapping("/listen")
+    public String listen() {
+        return "VIVA, ESCUTOU!!!";
     }
 
 	@Override

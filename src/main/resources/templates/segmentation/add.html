@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>Segmentação de Contatos</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"></link>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/segmentation.js"></script>
 </head>
@@ -48,7 +49,7 @@
 							     <tr th:each="params, stat: *{searchParams}">         
 							         <td th:if="*{searchParams.size() > 1}">
 								         <select th:if="*{searchParams[__${stat.index}__].needsCombinator}" th:field="*{searchParams[__${stat.index}__].groupCombinator}" class="form-control input-sm">
-										   <option th:each="combinator : ${T(br.desafio.helpers.types.GroupCombinator).values()}"
+										   <option th:each="combinator : ${T(br.desafio.helpers.GroupCombinator).values()}"
 										          th:value="${combinator}" 
 										          th:text="${combinator.getName()}"
 										          >
@@ -58,7 +59,7 @@
 							         </td>
 							         <td>
 								         <select th:field="*{searchParams[__${stat.index}__].contactAttribute}" class="form-control"  onchange="changeOptions(this)">
-										   <option th:each="attribute : ${T(br.desafio.helpers.types.ContactAttribute).values()}"
+										   <option th:each="attribute : ${T(br.desafio.helpers.ContactAttribute).values()}"
 										          th:value="${attribute}" 
 										          th:text="${attribute.getName()}"
 										          >

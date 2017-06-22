@@ -61,7 +61,6 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 			index++;
 		}
 
-		System.out.println(builder.toString());
 		return builder.toString();
 	}
 
