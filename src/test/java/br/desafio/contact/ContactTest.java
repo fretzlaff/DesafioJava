@@ -28,6 +28,7 @@ import br.desafio.controller.ContactsController;
 import br.desafio.controller.validation.ContactValidator;
 import br.desafio.model.Contact;
 import br.desafio.repos.ContactsRepos;
+import br.desafio.service.ContactChangeService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = ContactsController.class)
@@ -41,6 +42,9 @@ public class ContactTest {
 
     @MockBean
     private ContactValidator contactValidator;
+
+    @MockBean
+    private ContactChangeService contactChangeService;
 
 	final private String name = "joao";
 

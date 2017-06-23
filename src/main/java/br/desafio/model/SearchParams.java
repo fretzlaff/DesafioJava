@@ -8,7 +8,7 @@ import br.desafio.helpers.GroupCombinator;
 import lombok.Data;
 
 /**
- * Classe responsável por agrupar e armazenar os grupos de campos da consulta
+ * Classe responsável por agrupar e armazenar os critéiosda consulta
  */
 @Data
 public class SearchParams {

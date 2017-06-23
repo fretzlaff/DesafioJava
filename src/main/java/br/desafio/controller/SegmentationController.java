@@ -27,7 +27,7 @@ import br.desafio.repos.ContactsCustomRepos;
 import br.desafio.repos.SegmentationRepos;
 
 /**
- * Responsável por receber as requisições REST da view de pesquisa
+ * Responsável por receber as requisições REST da view de segmentação
  */
 @RestController
 @RequestMapping("segmentation")
@@ -47,13 +47,19 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
         binder.addValidators(segmentationValidator);
     }
 
-	@RequestMapping(value = "/submitSearch", params={"addCriteria"}, method = RequestMethod.POST)
+	/**
+	 * Adiciona uma linha de critérios de segmentação na tela
+	 */
+    @RequestMapping(value = "/submitSearch", params={"addCriteria"}, method = RequestMethod.POST)
 	public ModelAndView addCriteria(@ModelAttribute final Segmentation segmentation) {
 		final boolean needsCombinator = !segmentation.getSearchParams().isEmpty();
 		segmentation.getSearchParams().add(new SearchParams(needsCombinator));
 		return sendToSearch(segmentation);
 	}
 
+	/**
+	 * Remove a linha de critério de segmentação na tela
+	 */
 	@RequestMapping(value = "/submitSearch", params={"removeCriteria"}, method = RequestMethod.POST)
 	public ModelAndView removeCriteria(@ModelAttribute final Segmentation segmentation, final HttpServletRequest request) {
 		final int rowId = Integer.valueOf(request.getParameter("removeCriteria"));
@@ -61,6 +67,9 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 		return sendToSearch(segmentation);
 	}
 
+	/**
+	 * Executa a pesquisa de contatos a partir dos critérios preenchidos na tela de criação/edição de segmentação
+	 */
 	@RequestMapping(value = "/submitSearch", params={"search"}, method = RequestMethod.POST)
 	public ModelAndView submitSearch(@Valid final Segmentation segmentation, final BindingResult result) {
         if(result.hasErrors()) {
@@ -77,9 +86,11 @@ public class SegmentationController extends AbstractController<CrudRepository<Se
 		return super.save(segmentation, result, request);
 	}
 
-    @Override
+	/**
+	 * Abre a tela de visualização de uma segmentação criada
+	 */
 	@GetMapping("/view/{id}")
-    public ModelAndView edit(@PathVariable("id") final Long id) {
+    public ModelAndView view(@PathVariable("id") final Long id) {
     	final Segmentation segmentation = segmentationRepos.findOne(id);
         final List<Contact> contacts = contactsCustomRepos.findBySearchParams(segmentation.getSearchParams());
 

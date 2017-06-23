@@ -1,0 +1,31 @@
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Lista de Contatos</strong>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table id="contactTable" class="table table-sm table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Idade</th>
+                            <th>Estado</th>
+                            <th>Cargo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="contact : ${contacts}">
+                            <td th:text="${contact.id}"></td>
+                            <td th:text="${contact.name}"></td>
+                            <td th:text="${contact.email}"></td>
+                            <td th:text="${contact.age}"></td>
+                            <td th:text="${contact.state}"></td>
+                            <td th:text="${contact.role}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

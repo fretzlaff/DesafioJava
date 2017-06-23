@@ -44,6 +44,10 @@ public class Segmentation {
 	@Column(nullable = false, length=500)
 	private String jsonStringParams;
 
+	/**
+	 * Lista com os critérios de pesquisa da segmentação
+	 * Esse campo não será gravado numa tabela separada, mas será serializado no campo jsonStringParams
+	 */
 	@Valid
 	@Transient
 	private List<SearchParams> searchParams = new ArrayList<>();
@@ -52,6 +56,9 @@ public class Segmentation {
 		searchParams.add(new SearchParams());
 	}
 
+	/**
+	 * Serializa a lista de critérios e grava no banco em base64
+	 */
 	public void convertParamsToJson() {
 		log.info("Convertendo parâmetros de pesquisa para json");
 		final Gson gson = new Gson();
@@ -59,6 +66,9 @@ public class Segmentation {
 		jsonStringParams = Base64Utils.encodeToString(json.getBytes());
 	}
 
+	/**
+	 * Deserializa a lista de critérios gravdos no banco em base64 para o objeto da classe
+	 */
 	@PostLoad
 	public void fillParamsFromJson() {
 		// Serializa a lista de parâmetros de pesquisa

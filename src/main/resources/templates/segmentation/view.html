@@ -12,96 +12,83 @@
 </head>
 <body>
     <div th:object="${segmentation}" class="panel panel-default">
-        <div class="panel-heading ">
-            <h4 th:text="${'Descrição: ' + segmentation.description}"></h4>
+        <div class="panel-heading">
+               	<table style="width:100%;border: 0px">
+               		<tr>
+               			<td class="col-md-11 col-lg-11">
+               				<h4 th:text="${'Descrição: ' + segmentation.description}"></h4>
+               			</td>
+               			<td class="col-md-1 col-lg-1 text-right">
+		                    <a th:href="@{/segmentation/}" class="btn btn-sm btn-primary">Voltar</a>
+               			</td>
+               		</tr>
+               	</table>
         </div>
         <div class="panel-body">
-        
+		    <div th:object="${segmentation}" class="panel panel-default">
+			<div class="panel panel-success">
+				<strong> >> Critérios da Segmentação</strong>
+			</div>        
+	
             <div class="table-responsive">
                 <table class="table table-sm table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>Combinador</th>
-                            <th>Atributo</th>
-                            <th>Regra</th>
-                            <th>Valor</th>
+                            <th class="col-md-1 col-lg-1">Combinador</th>
+                            <th class="col-md-1 col-lg-1">Atributo</th>
+                            <th class="col-md-1 col-lg-1">Regra</th>
+                            <th class="col-md-1 col-lg-4">Valor</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="params : *{searchParams}">
-                            <td th:text="${params.groupCombinator}"></td>
-                            <td th:text="${params.contactAttribute}"></td>
-                            <td th:text="${params.comparisonRule}"></td>
+                            <td th:text="${params.needsCombinator} ? ${params.groupCombinator} : ''"></td>
+                            <td th:text="${params.contactAttribute.name}"></td>
+                            <td th:text="${params.comparisonRule.name}"></td>
                             <td th:text="${params.value}"></td>
                         </tr>
                     </tbody>
                 </table>
+                
             </div>
+        </div>
         
         </div>
     </div>
     
-    <div class="panel panel-default">
-        <div class="panel-heading text-center">
-            <h4>Lista de Contatos</h4>
-        </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table table-sm table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th>Idade</th>
-                            <th>Estado</th>
-                            <th>Cargo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="contact : ${contacts}">
-                            <td th:text="${contact.id}"></td>
-                            <td th:text="${contact.name}"></td>
-                            <td th:text="${contact.email}"></td>
-                            <td th:text="${contact.age}"></td>
-                            <td th:text="${contact.state}"></td>
-                            <td th:text="${contact.role}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>    
+	<div th:include="contact/contactTable"></div>
+
 
 <script>
 
-var isActive = true;
-
-$().ready(function () {
-    pollServer();
-});
-
-function pollServer()
-{
-    if (isActive)
-    {
-        window.setTimeout(function () {
-            $.ajax({
-                url: "/contact/listen",
-                success: function (result) {
-                    //SUCCESS LOGIC
-                    alert('RESULT: ' + result);
-                    pollServer();
-                },
-                error: function () {
-                    //ERROR HANDLING
-                    pollServer();
-                }});
-        }, 2500);
-    }
-}
-
-
+	var isActive = true;
+	
+	$().ready(function () {
+	    pollServer();
+	});
+	
+	function pollServer()
+	{
+	    if (isActive)
+	    {
+	        window.setTimeout(function () {
+	            $.ajax({
+	                url: "/contact/listen",
+	                success: function (result) {
+	                    //SUCCESS LOGIC
+	                    if (result != '') {
+	                    	window.location.reload(false);
+	                    }
+	                    pollServer();
+	                },
+	                error: function () {
+	                    //ERROR HANDLING
+	                    pollServer();
+	                }});
+	        }, 3000);
+	    }
+	}
+	
 </script>
     
 </body>

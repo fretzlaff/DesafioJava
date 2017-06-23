@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Responsável por montar a query a partir dos critérios definidos na segmentação
- * O detalhe mais importante dessa classe é o fato de que a query deve ser montada
+ * Um detalhe importante dessa classe é o fato de que a query deve ser montada
  * usando parâmetros para evitar SQL Injection
  */
 @Slf4j
@@ -28,6 +28,9 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * Cria a query a partir da lista de critérios e faz a pesquisa no banco
+	 */
 	@Override
 	public List<Contact> findBySearchParams(final List<SearchParams> paramsList) {
 		final String queryStr = buildSearchCriteria(paramsList);
@@ -39,6 +42,9 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 		return query.getResultList();
 	}
 
+	/**
+	 * Monta a string da query
+	 */
 	@VisibleForTesting
 	protected String buildSearchCriteria(final List<SearchParams> paramsList) {
 		final StringBuilder builder = new StringBuilder("from Contact ");
@@ -64,6 +70,9 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 		return builder.toString();
 	}
 
+	/**
+	 * Seta os valores na query gerada
+	 */
 	private void setParameterValues(final Query query, final List<SearchParams> paramsList) {
 		int index = 0;
 		for (final SearchParams searchParam : paramsList) {
@@ -74,6 +83,11 @@ public class ContactsCustomImpl implements ContactsCustomRepos {
 		}
 	}
 
+	/**
+	 * Trata o parâmtro de acordo com o tipo e operações
+	 * O campo idade deve ser retornado como inteiro
+	 * As operações contém, começa com e termina com deve ser retornado considerando o % no valor
+	 */
 	private Object getValueFrom(final SearchParams searchParam) {
 		Object result = null;
 		if (searchParam.getContactAttribute().equals(ContactAttribute.AGE)) {

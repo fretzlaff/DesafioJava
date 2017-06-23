@@ -44,4 +44,5 @@ public class Contact {
 
 	@Column(nullable = false)
 	private String role;
+
 }

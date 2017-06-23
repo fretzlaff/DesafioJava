@@ -55,12 +55,17 @@ public abstract class AbstractController<T extends CrudRepository<S, Serializabl
         if(result.hasErrors()) {
             return add(entity);
         }
+        beforeSave(entity);
         getEntityRepos().save(entity);
         return list();
     }
 
 
-    public abstract T getEntityRepos();
+    public void beforeSave(final S entity) {
+    	// ponto de extenção para as implementações
+	}
+
+	public abstract T getEntityRepos();
 
     public abstract String getRootPath();
 
