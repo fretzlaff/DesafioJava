@@ -42,7 +42,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="params : *{searchParams}">
-                            <td th:text="${params.needsCombinator} ? ${params.groupCombinator} : ''"></td>
+                            <td th:text="${params.needsCombinator} ? ${params.groupCombinator.name} : ''"></td>
                             <td th:text="${params.contactAttribute.name}"></td>
                             <td th:text="${params.comparisonRule.name}"></td>
                             <td th:text="${params.value}"></td>
